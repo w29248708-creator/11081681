@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { ProjectInfo } from '../types';
-import { BuildingOfficeIcon, CalendarDaysIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { BuildingOfficeIcon } from '@heroicons/react/24/outline';
 
 interface ProjectHeaderProps {
   info: ProjectInfo;
@@ -10,73 +10,85 @@ interface ProjectHeaderProps {
 
 export const ProjectHeader: React.FC<ProjectHeaderProps> = ({ info, onUpdate }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-zinc-900/50 border border-zinc-800/50 rounded-xl backdrop-blur-sm shadow-xl">
-      <div className="md:col-span-2 space-y-3">
-        <div className="flex items-center gap-2 text-blue-400 mb-1">
-           <BuildingOfficeIcon className="w-4 h-4" />
-           <span className="text-xs font-bold tracking-wider uppercase">Project Name</span>
+    <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-5 font-sans">
+      {/* Title Row */}
+      <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+        <div className="p-2 bg-blue-600 rounded-lg shadow-sm">
+           <BuildingOfficeIcon className="w-6 h-6 text-white" />
         </div>
-        <input 
-          type="text" 
-          value={info.projectName}
-          onChange={(e) => onUpdate({ ...info, projectName: e.target.value })}
-          className="w-full bg-transparent text-2xl font-bold text-white border-none focus:ring-0 p-0 placeholder-zinc-700"
-          placeholder="Enter Project Name"
-        />
-        <div className="flex gap-4 text-sm">
-           <div className="flex items-center gap-2 bg-zinc-800/50 px-3 py-1.5 rounded-md border border-zinc-700/50">
-             <span className="text-zinc-500">編號:</span>
-             <input 
-                value={info.projectCode}
-                onChange={(e) => onUpdate({ ...info, projectCode: e.target.value })}
-                className="bg-transparent text-zinc-300 w-28 focus:outline-none"
-             />
-           </div>
-           <div className="flex items-center gap-2 bg-zinc-800/50 px-3 py-1.5 rounded-md border border-zinc-700/50">
-             <span className="text-zinc-500">承攬:</span>
-             <input 
-                value={info.contractor}
-                onChange={(e) => onUpdate({ ...info, contractor: e.target.value })}
-                className="bg-transparent text-zinc-300 w-40 focus:outline-none"
-             />
-           </div>
+        <div className="flex-1">
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">專案名稱</label>
+            <input 
+              type="text" 
+              value={info.projectName}
+              onChange={(e) => onUpdate({ ...info, projectName: e.target.value })}
+              className="w-full text-xl font-bold text-slate-800 border-none focus:ring-0 p-0 placeholder-slate-300 bg-transparent"
+              placeholder="輸入專案名稱..."
+            />
         </div>
       </div>
 
-      <div className="md:col-span-2 grid grid-cols-2 gap-4">
-         <div className="bg-zinc-800/30 rounded-lg p-3 border border-zinc-700/30 flex flex-col justify-between">
-            <div className="flex items-center gap-2 text-purple-400 mb-2">
-               <CalendarDaysIcon className="w-4 h-4" />
-               <span className="text-xs font-bold uppercase">Schedule</span>
+      {/* Grid Layout for Details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+         {/* Left Column */}
+         <div className="space-y-3">
+            <div className="grid grid-cols-[120px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">工程起始日期</span>
+               <input 
+                 type="date" 
+                 value={info.startDate} 
+                 onChange={(e) => onUpdate({...info, startDate: e.target.value})} 
+                 className="bg-slate-50 border border-slate-200 rounded px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500" 
+               />
             </div>
-            <div className="space-y-2">
-               <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-500">Start:</span>
-                  <input type="date" value={info.startDate} onChange={(e) => onUpdate({...info, startDate: e.target.value})} className="bg-transparent text-zinc-300 text-right focus:outline-none" />
-               </div>
-               <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-500">End:</span>
-                  <input type="date" value={info.endDate} onChange={(e) => onUpdate({...info, endDate: e.target.value})} className="bg-transparent text-zinc-300 text-right focus:outline-none" />
-               </div>
+            <div className="grid grid-cols-[120px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">工程完工日期</span>
+               <input 
+                 type="date" 
+                 value={info.endDate} 
+                 onChange={(e) => onUpdate({...info, endDate: e.target.value})} 
+                 className="bg-slate-50 border border-slate-200 rounded px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500" 
+               />
+            </div>
+            <div className="grid grid-cols-[120px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">製表/更新日期</span>
+               <input 
+                 type="date" 
+                 value={info.updatedDate} 
+                 onChange={(e) => onUpdate({...info, updatedDate: e.target.value})} 
+                 className="bg-slate-50 border border-slate-200 rounded px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-blue-500" 
+               />
             </div>
          </div>
 
-         <div className="bg-zinc-800/30 rounded-lg p-3 border border-zinc-700/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -mr-8 -mt-8"></div>
-            <div className="flex items-center gap-2 text-emerald-400 mb-2 relative z-10">
-               <ClockIcon className="w-4 h-4" />
-               <span className="text-xs font-bold uppercase">Duration</span>
+         {/* Right Column */}
+         <div className="space-y-3">
+            <div className="grid grid-cols-[100px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">工地負責人</span>
+               <input 
+                 value={info.siteManager} 
+                 onChange={(e) => onUpdate({...info, siteManager: e.target.value})} 
+                 className="bg-transparent border-b border-slate-200 hover:border-blue-400 px-2 py-1 text-sm text-slate-800 font-medium focus:outline-none focus:border-blue-500 transition-colors"
+                 placeholder="姓名"
+               />
             </div>
-            <div className="flex items-end justify-between relative z-10">
-               <span className="text-zinc-500 text-sm">Total Days</span>
-               <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-mono font-bold text-white">{info.duration}</span>
-                  <span className="text-xs text-zinc-500">days</span>
-               </div>
+            <div className="grid grid-cols-[100px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">職安人員</span>
+               <input 
+                 value={info.safetyOfficer} 
+                 onChange={(e) => onUpdate({...info, safetyOfficer: e.target.value})} 
+                 className="bg-transparent border-b border-slate-200 hover:border-blue-400 px-2 py-1 text-sm text-slate-800 font-medium focus:outline-none focus:border-blue-500 transition-colors"
+                 placeholder="姓名"
+               />
             </div>
-            <div className="mt-2 pt-2 border-t border-zinc-700/50 flex justify-between items-center text-[10px] text-zinc-500">
-               <span>Last Update:</span>
-               <span>{info.lastUpdated}</span>
+            <div className="grid grid-cols-[100px_1fr] items-center gap-2">
+               <span className="text-sm font-medium text-slate-500">品管人員</span>
+               <input 
+                 value={info.qualityControl} 
+                 onChange={(e) => onUpdate({...info, qualityControl: e.target.value})} 
+                 className="bg-transparent border-b border-slate-200 hover:border-blue-400 px-2 py-1 text-sm text-slate-800 font-medium focus:outline-none focus:border-blue-500 transition-colors"
+                 placeholder="姓名"
+               />
             </div>
          </div>
       </div>
